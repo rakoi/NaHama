@@ -18,6 +18,7 @@ use Filament\Tables;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\SoftDeletingScope;
 use Illuminate\Support\Facades\Auth;
+use Yemenpoint\FilamentGoogleMapLocationPicker\Forms\Components\LocationPicker;
 
 class PropertyResource extends Resource
 {
@@ -48,6 +49,25 @@ class PropertyResource extends Resource
                       RichEditor::make('description')->required(),
                       Forms\Components\SpatieMediaLibraryFileUpload::make('thumbnail')->collection('property'),
                       Forms\Components\TextInput::make('contact')->required(),
+                      LocationPicker::make('location')
+                          ->mapControls(
+                              [
+                                  'mapTypeControl' => true,
+                                  'scaleControl' => true,
+                                  'streetViewControl' => true,
+                                  'rotateControl' => true,
+                                  'fullscreenControl' => true,
+                                  'searchBoxControl' => true
+                              ]
+                          )
+                          ->default(json_encode(["lat" => -1.286389, "lng" => 36.817223]))//set default location
+                          ->defaultZoom(16)// set zoom
+                          ->setLocationCenter([
+                              'lat' => -1.286389,
+                              'lng' => 36.817223,
+                          ]) //set location center
+                          ->required()
+                          ->columnSpan(1),
                       Forms\Components\Toggle::make('is_available')->required()
                   ]
               )

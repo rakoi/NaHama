@@ -15,7 +15,7 @@ return new class extends Migration
     {
         //
         Schema::table('properties', function (Blueprint $table) {
-            $table->boolean('maplocation');
+            $table->json("location")->nullable();
         });
     }
 

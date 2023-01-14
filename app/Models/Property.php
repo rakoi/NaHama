@@ -25,7 +25,8 @@ class Property extends Model implements HasMedia
         'town_id',
         'longitutde',
         'latitude',
-        'is_available'
+        'is_available',
+        'location'
     ];
 
     public function user(){
@@ -47,4 +48,12 @@ class Property extends Model implements HasMedia
         static::addGlobalScope(new PropertyScope());
     }
 
+    function setLocationAttribute($value)
+    {
+        //replace lat_column_name and lng_column_name with your column names
+        $this->attributes['location'] = $value;
+        $_location = @json_decode($value,true);
+        $this->attributes['latitude'] = data_get($_location,"lat");
+        $this->attributes['longitutde'] = data_get($_location,"lng");
+    }
 }
